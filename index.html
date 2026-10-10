@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VALORANT 準星收集冊</title>
+    <style>
+        :root {
+            --val-red: #ff4655;
+            --val-dark: #0f1923;
+            --val-gray: #ece8e1;
+            --val-card-bg: #1f2731;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--val-dark);
+            color: var(--val-gray);
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: var(--val-red);
+            margin-bottom: 5px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .admin-panel {
+            background: var(--val-card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #333;
+        }
+        .admin-panel input, .admin-panel textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            background: #0f1923;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: var(--val-red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .crosshair-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: var(--val-card-bg);
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #333;
+        }
+        .card h3 {
+            margin-top: 0;
+            color: var(--val-red);
+        }
+        .code-box {
+            background: #0f1923;
+            padding: 8px;
+            font-family: monospace;
+            word-break: break-all;
+            font-size: 12px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>VALORANT 準星收集冊</h1>
+            <p>選手與神人準星分享專區</p>
+        </header>
+
+        <!-- 後台新增區塊 -->
+        <div class="admin-panel">
+            <h3>後台管理：新增準星</h3>
+            <input type="text" id="titleInput" placeholder="準星名稱 (例如: PRX Something 2026)">
+            <textarea id="codeInput" placeholder="請在此輸入準星匯入代碼"></textarea>
+            <button onclick="addCrosshair()">新增準星</button>
+        </div>
+
+        <!-- 前台展示區塊 -->
+        <h2>準星列表</h2>
+        <div class="crosshair-grid" id="crosshairGrid">
+            <!-- 預設範例卡片 -->
+            <div class="card">
+                <h3>範例：Prx Something 經典準星</h3>
+                <div class="code-box">0;P;c;8;h;0;b;1;f;0;0l;4;0o;2;0a;1;1f;0</div>
+                <button onclick="navigator.clipboard.writeText('0;P;c;8;h;0;b;1;f;0;0l;4;0o;2;0a;1;1f;0'); alert('已複製代碼！');">複製代碼</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addCrosshair() {
+            const title = document.getElementById('titleInput').value;
+            const code = document.getElementById('codeInput').value;
+
+            if(!title || !code) {
+                alert('請完整填寫名稱與代碼！');
+                return;
+            }
+
+            const grid = document.getElementById('crosshairGrid');
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <h3>${title}</h3>
+                <div class="code-box">${code}</div>
+                <button onclick="navigator.clipboard.writeText('${code}'); alert('已複製代碼！');">複製代碼</button>
+            `;
+            grid.appendChild(card);
+
+            document.getElementById('titleInput').value = '';
+            document.getElementById('codeInput').value = '';
+            alert('新增成功！');
+        }
+    </script>
+</body>
+</html>
